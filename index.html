@@ -1,0 +1,228 @@
+Here is the clean, single-block code for **`index.html`**. You can click the **Copy** button at the top right of the code box below to copy everything in one click:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aas (آس) - Mental Health Helpline Directory</title>
+  <style>
+    :root {
+      --primary: #1d4ed8;
+      --primary-hover: #1e40af;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --danger: #dc2626;
+      --danger-hover: #b91c1c;
+      --whatsapp: #16a34a;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 40px; }
+
+    .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--card-bg); box-shadow: 0 0 20px rgba(0,0,0,0.05); }
+
+    /* Top Safety Bar */
+    .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: #0f172a; color: white; position: sticky; top: 0; z-index: 100; }
+    .app-title { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .quick-exit { background: var(--danger); color: white; border: none; padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .quick-exit:hover { background: var(--danger-hover); }
+
+    /* Header Banner */
+    .hero-banner { padding: 20px 16px; background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; }
+    .hero-banner h1 { font-size: 22px; margin-bottom: 6px; }
+    .hero-banner p { font-size: 13px; opacity: 0.9; line-height: 1.4; }
+
+    /* Search & Filters */
+    .controls { padding: 16px; border-bottom: 1px solid var(--border); }
+    .search-box { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; outline: none; margin-bottom: 12px; background: #f1f5f9; }
+    .search-box:focus { border-color: var(--primary); background: #fff; }
+    
+    .filter-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+    .filter-pills::-webkit-scrollbar { display: none; }
+    .pill { background: #e2e8f0; border: none; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; }
+    .pill.active { background: var(--primary); color: white; }
+
+    /* Helpline List */
+    .helpline-list { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .card-title { font-size: 16px; font-weight: 700; color: var(--text); }
+    .badge { background: #dbeafe; color: #1e40af; font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 6px; }
+    
+    .card-info { font-size: 13px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+    .meta-row { display: flex; gap: 12px; font-size: 12px; color: #475569; margin-bottom: 14px; }
+    .meta-item { display: flex; align-items: center; gap: 4px; }
+
+    /* Actions */
+    .btn-group { display: flex; gap: 8px; }
+    .btn { flex: 1; text-align: center; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-flex; justify-content: center; align-items: center; gap: 6px; }
+    .btn-call { background: var(--primary); color: white; }
+    .btn-call:hover { background: var(--primary-hover); }
+    .btn-wa { background: var(--whatsapp); color: white; }
+
+    .footer-note { text-align: center; padding: 20px; font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Top Safety Bar -->
+  <div class="top-bar">
+    <div class="app-title"><span>آس</span> Aas</div>
+    <button class="quick-exit" onclick="quickExit()">Quick Exit ✕</button>
+  </div>
+
+  <!-- Hero Header -->
+  <div class="hero-banner">
+    <h1>Mental Health & Crisis Directory</h1>
+    <p>Confidential, free, and immediate support across Pakistan.</p>
+  </div>
+
+  <!-- Search & Category Filters -->
+  <div class="controls">
+    <input type="text" id="searchInput" class="search-box" placeholder="Search by name, category, or language..." oninput="filterData()">
+    <div class="filter-pills">
+      <button class="pill active" onclick="setCategory('All', this)">All</button>
+      <button class="pill" onclick="setCategory('Crisis', this)">Crisis</button>
+      <button class="pill" onclick="setCategory('Counseling', this)">Counseling</button>
+      <button class="pill" onclick="setCategory('Women & Youth', this)">Women & Youth</button>
+      <button class="pill" onclick="setCategory('Addiction', this)">Addiction</button>
+    </div>
+  </div>
+
+  <!-- Helpline Cards -->
+  <div class="helpline-list" id="helplineContainer">
+    <!-- Rendered via Javascript -->
+  </div>
+
+  <div class="footer-note">
+    Created by <strong>Luiza Arif</strong> • 100% Anonymous & Free Public Welfare Directory
+  </div>
+</div>
+
+<script>
+  const helplines = [
+    {
+      name: "Umang Pakistan",
+      category: "Crisis",
+      phone: "03117786264",
+      hours: "24/7",
+      languages: "Urdu, English",
+      desc: "24/7 mental health crisis support and suicide prevention helpline.",
+      whatsapp: "https://wa.me/923117786264"
+    },
+    {
+      name: "Taskeen Helpline",
+      category: "Counseling",
+      phone: "03321827533",
+      hours: "9 AM - 5 PM",
+      languages: "Urdu, English",
+      desc: "Emotional well-being, psychological counseling, and wellness support.",
+      whatsapp: ""
+    },
+    {
+      name: "Rozan Helpline",
+      category: "Women & Youth",
+      phone: "080022444",
+      hours: "10 AM - 6 PM",
+      languages: "Urdu, Regional",
+      desc: "Support for women, youth, and children experiencing emotional distress.",
+      whatsapp: ""
+    },
+    {
+      name: "AAS Trust Pakistan",
+      category: "Addiction",
+      phone: "02135873215",
+      hours: "9 AM - 6 PM",
+      languages: "Urdu, English",
+      desc: "Rehabilitation and psychological recovery for addiction.",
+      whatsapp: ""
+    },
+    {
+      name: "Chayn Pakistan",
+      category: "Women & Youth",
+      phone: "03008253131",
+      hours: "24/7",
+      languages: "Urdu, English",
+      desc: "Crisis support and legal/counseling guidance for women.",
+      whatsapp: ""
+    }
+  ];
+
+  let selectedCategory = "All";
+
+  function renderCards(data) {
+    const container = document.getElementById("helplineContainer");
+    container.innerHTML = "";
+
+    if (data.length === 0) {
+      container.innerHTML = '<p style="text-align:center; color:#64748b; padding:20px;">No matching helplines found.</p>';
+      return;
+    }
+
+    data.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      
+      const waButton = item.whatsapp 
+        ? '<a href="' + item.whatsapp + '" target="_blank" class="btn btn-wa">💬 WhatsApp</a>' 
+        : '';
+
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="card-title">${item.name}</div>
+          <span class="badge">${item.category}</span>
+        </div>
+        <div class="card-info">${item.desc}</div>
+        <div class="meta-row">
+          <div class="meta-item">🕒 ${item.hours}</div>
+          <div class="meta-item">🗣️ ${item.languages}</div>
+        </div>
+        <div class="btn-group">
+          <a href="tel:${item.phone}" class="btn btn-call">📞 Call ${item.phone}</a>
+          ${waButton}
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function filterData() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    const filtered = helplines.filter(item => {
+      const matchesSearch = item.name.toLowerCase().includes(query) || 
+                            item.desc.toLowerCase().includes(query) || 
+                            item.languages.toLowerCase().includes(query);
+      const matchesCategory = selectedCategory === "All" || item.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+    renderCards(filtered);
+  }
+
+  function setCategory(cat, btn) {
+    selectedCategory = cat;
+    document.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    filterData();
+  }
+
+  function quickExit() {
+    window.location.href = "https://www.google.com";
+  }
+
+  // Initial render
+  renderCards(helplines);
+</script>
+
+</body>
+</html>
+```
+
+🚀 Let me know if you need help setting up the GitHub Pages URL or adding extra helpline entries to the list!
